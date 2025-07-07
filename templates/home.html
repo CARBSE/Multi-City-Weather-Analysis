@@ -1,0 +1,174 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Multi‑City Weather Analysis</h1>
+
+  <!-- Selection Form -->
+  <form id="cityForm">
+    <div class="row mb-3">
+      <!-- Building Typology -->
+      <div class="col-md-3">
+        <label for="typology" class="form-label">Building Typology</label>
+        <select class="form-select" name="typology" id="typology">
+          <option value="" selected disabled>-- Select Typology --</option>
+          {% for t in typologies %}
+            <option value="{{ t }}">{{ t }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <!-- Comfort Model -->
+      <div class="col-md-3">
+        <label for="comfort_model" class="form-label">Comfort Model</label>
+        <select class="form-select" name="model" id="comfort_model" disabled>
+          <option value="" selected disabled>-- Select Model --</option>
+        </select>
+      </div>
+      <!-- State & City 1 -->
+      <div class="col-md-2">
+        <label for="state1" class="form-label">State (City 1)</label>
+        <select class="form-select" name="state1" id="state1" disabled>
+          <option value="" selected disabled>-- Select State --</option>
+          {% for s in states %}<option value="{{ s }}">{{ s }}</option>{% endfor %}
+        </select>
+      </div>
+      <div class="col-md-2">
+        <label for="city1" class="form-label">City 1</label>
+        <select class="form-select" name="city1" id="city1" disabled>
+          <option value="" selected disabled>-- Select City 1 --</option>
+        </select>
+      </div>
+      <!-- State & City 2 -->
+      <div class="col-md-2">
+        <label for="state2" class="form-label">State (City 2)</label>
+        <select class="form-select" name="state2" id="state2" disabled>
+          <option value="" selected disabled>-- Select State --</option>
+          {% for s in states %}<option value="{{ s }}">{{ s }}</option>{% endfor %}
+        </select>
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-md-2">
+        <label for="city2" class="form-label">City 2</label>
+        <select class="form-select" name="city2" id="city2" disabled>
+          <option value="" selected disabled>-- Select City 2 --</option>
+        </select>
+      </div>
+      <div class="col-md-2 d-flex align-items-end">
+        <button type="submit" class="btn btn-primary w-100" id="analyzeBtn" disabled>Analyze</button>
+      </div>
+    </div>
+  </form>
+
+  <hr>
+  <div id="analysisSection" class="mt-5 d-none">
+  <div class="row g-3">
+
+    <h2>Comparison: <span id="headerCities"></span> </h2>
+    
+
+<!-- NEW: Base map + stacked profiles -->
+    <div class="row mb-4 align-items-stretch">
+      <!-- Left column: static map -->
+      <div class="col-md-6">
+      <div class="border rounded p-2 h-100">
+        <img
+          id="mapMulti"
+          src="{{ url_for('static', filename='images/city-profile-for-single-city/india-map.jpg') }}"
+          style="max-height: 600px; width: auto;"
+          class="img-fluid h-100"
+          style="object-fit: contain;"
+          alt="Climate Zone Map of India"
+        >
+      </div>
+      </div>
+      
+	<!-- Right column: two profiles, each half-height -->
+      <div class="col-md-6 d-flex flex-column" style="display: flex; flex-direction: column; gap: 10px; max-height: 600px; overflow: hidden;">
+      <div class="card transparent-bg flex-fill mb-3 border rounded p-2 h-100 profile-box">        
+        <img id="profile1" class="img-fluid flex-fill" src="" alt="Profile City 1" style="object-fit: contain; height: auto%;">
+      </div>
+
+      <div class="card transparent-bg flex-fill mb-3 border rounded p-2 h-100 mb-3 profile-box">    
+        <img id="profile2" class="img-fluid flex-fill" src="" alt="Profile City 2" style="object-fit: contain; height: auto;">
+      </div>
+	</div>
+    </div>
+
+    <!-- Stats tables -->
+    <div class="mb-4">
+      <h5 id="stats1-heading">Air Temperature Stats for <span id="label1"></span></h5>
+      <div id="table1"></div>
+      <a id="dlStats1" class="btn btn-sm btn-outline-secondary mb-4" target="_blank">Download CSV</a>
+
+      <h5 id="stats2-heading">Air Temperature Stats for <span id="label2"></span></h5>
+      <div id="table2"></div>
+      <a id="dlStats2" class="btn btn-sm btn-outline-secondary" target="_blank">Download CSV</a>
+    </div>
+
+
+<!-- Comfort bands section: two charts → legend → download button -->
+<div class="col-12">
+  <!-- Flex row of the two charts, aligned to top -->
+  <div class="d-flex justify-content-between align-items-start chart-row">
+    <!-- City 1 chart -->
+    <div class="chart-container text-center flex-fill me-2">
+      <h6>Comfort Bands for <span id="label1"></span></h6>
+      <img id="chart1" class="img-fluid mb-2" src="" alt="Comfort Band City1">
+    </div>
+    <!-- City 2 chart -->
+    <div class="chart-container text-center flex-fill ms-2">
+      <h6>Comfort Bands for <span id="label2"></span></h6>
+      <img id="chart2" class="img-fluid mb-2" src="" alt="Comfort Band City2">
+    </div>
+  </div>
+  <!-- Common legend, full width -->
+  <div class="text-center mt-3">
+    <img id="comfort-legend" src="" class="img-fluid" alt="Comfort Bands Legend">
+  </div>
+  <!-- Download button sits below legend -->
+  <div class="text-center mt-2">
+    <button id="dlBothBands" class="btn btn-outline-secondary">
+      Download Combined Comfort Band Chart
+    </button>
+  </div>
+</div>
+
+
+
+
+    <!-- Comfort hours -->
+    <div class="text-center mt-4">
+      <h5>Variation in Comfort Hours with respect to Air Temperature</h5>
+      <img id="chartHours" class="img-fluid mb-2" src="" alt="Comfort Hours"><br>
+      <a id="dlChartHours" class="btn btn-outline-secondary btn-sm" target="_blank">Download Comfort Hours Comparison Chart</a>
+    </div>
+  </div>
+</div>
+
+  <!-- Main JS (only once!) -->
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+  <script>
+    const TYP_TO_MODELS = {{ typ_to_models | safe }};
+    const CITY_META     = {{ city_meta_json   | safe }};
+  </script>
+
+<script>
+document.getElementById("dlBothBands").addEventListener("click", () => {
+  const city1 = document.getElementById("city1").value;
+  const city2 = document.getElementById("city2").value;
+  const model = document.getElementById("comfort_model").value;
+
+  if (!city1 || !city2 || !model) {
+    alert("Please select both cities and a model before downloading.");
+    return;
+  }
+
+  const url = `/download/combined_chart?city1=${encodeURIComponent(city1)}&city2=${encodeURIComponent(city2)}&model=${encodeURIComponent(model)}`;
+  window.open(url, '_blank');
+});
+</script>
+
+
+
+{% endblock %}

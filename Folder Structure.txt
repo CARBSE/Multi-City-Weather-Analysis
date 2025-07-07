@@ -1,0 +1,23 @@
+your‐project/
+├── app.py
+├── requirements.txt
+|__ Procfile
+├── templates/
+│   ├── base.html
+│   └── home.html
+|   |__ style.css
+└── static/
+    ├── img/
+    │   ├── logo1.png
+    │   └── logo2.png
+    ├── js/
+    │   └── main.js
+    ├── data/
+    │   └── WeathertoolLocations.xlsx; comfort model excel files
+    |___icons
+    |   |___map_pin.png
+    └── images/
+        ├── india_map.jpg
+        └── city-profile-for-single-city/
+            ├── ahmedabad.jpg
+            └── (other city jpgs)

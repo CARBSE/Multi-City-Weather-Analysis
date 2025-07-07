@@ -1,0 +1,300 @@
+/*----------------------------------------
+  Base and Typography
+----------------------------------------*/
+body {
+  font-family: 'Inter', sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background-color: #f4f7f9;
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  font-size: 2rem;
+  margin: 0;
+}
+
+h2 {
+  font-size: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+h3 {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+/*----------------------------------------
+  Header & Footer
+----------------------------------------*/
+header {
+  background-color: #2d3e50;
+  color: white;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+}
+
+header img {
+  margin-right: 20px;
+}
+
+footer {
+  text-align: center;
+  padding: 10px;
+  background: #2d3e50;
+  color: white;
+  margin-top: 20px;
+}
+
+/*----------------------------------------
+  Layout Container
+----------------------------------------*/
+.app-container {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;          /* wraps on smaller screens */
+  padding: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Each column panel */
+.column {
+  flex: 1 1 300px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Uniform vertical spacing inside columns */
+.column > * + * {
+  margin-top: 1rem;
+}
+
+/*----------------------------------------
+  Forms & Controls
+----------------------------------------*/
+form {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+
+/* Rounded gray inputs & selects */
+select,
+input[type="number"],
+input[type="email"],
+input[type="password"] {
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 0.6rem 1rem;
+  font-size: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 1rem;
+}
+
+/* Buttons */
+button {
+  background-color: #2d3e50;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+}
+button:hover {
+  background-color: #1a2b3b;
+}
+
+/* Icon spacing */
+button i,
+a i {
+  margin-right: 0.5rem;
+  vertical-align: middle;
+  font-size: 1.1rem;
+}
+
+/*----------------------------------------
+  Lists & Tables
+----------------------------------------*/
+.flashes {
+  list-style: none;
+  padding: 0;
+}
+.flash {
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
+}
+.flash.success { background: #d4edda; color: #155724; }
+.flash.danger  { background: #f8d7da; color: #721c24; }
+.flash.info    { background: #d1ecf1; color: #0c5460; }
+
+/* Assemblies list items */
+.column ul {
+  list-style: none;
+  padding: 0;
+}
+.column li {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+/* Tables */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  background: white;
+}
+table, th, td {
+  border: 1px solid #ccc;
+}
+th, td {
+  padding: 0.75rem;
+  text-align: center;
+}
+table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+
+/*----------------------------------------
+  Responsive Breakpoint
+----------------------------------------*/
+@media (max-width: 768px) {
+  .column {
+    flex: 1 1 100%;
+  }
+}
+
+
+
+.card {
+  border: 1px solid #e0e0e0;        /* a light gray border */
+  border-radius: 8px;               /* slightly more rounded corners */
+  overflow: hidden;                 /* clip any excess */
+}
+
+
+/* 1) General Bootstrap-style img-fluid (no object-fit override) */
+img.img-fluid {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* 2) Specifically for images with “card-image-fill”, fill the parent */
+img.card-image-fill {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;   /* cover entire container, cropping if necessary */
+}
+
+
+
+.card.equal-height {
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.card-image-fill {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Make sure the card-body itself also grows to fill the card */
+.card-body {
+  display: flex !important;
+  flex-direction: column;
+  padding: 0;            /* remove any extra padding */
+  flex : 1;
+}
+
+
+.card-caption {
+  padding: 0.5rem;
+  text-align: center;
+  background-color: #ffffff;
+  border-top: 1px solid #e0e0e0;
+}
+
+
+/* ensure each profile covers exactly 50% of its container’s height */
+.flex-fill {
+  height: 50%;
+  width: 100%;
+  object-fit: cover;  /* crops if needed to fill the box */
+}
+
+
+
+/* Make the container match the image height */
+.border.h-100 {
+  height: 100%;
+}
+
+/* Ensure the two profile boxes split the map’s height */
+@media (min-width: 768px) {
+  .col-md-6 > .mb-3,
+  .col-md-6 > .border:last-child {
+    height: calc(50% - 0.5rem);  /* accounts for the 0.5rem bottom margin */
+  }
+}
+
+.profile-box {
+  display: flex;
+  flex: 1 1 0;          /* grow equally */
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+
+
+
+.chart-row {
+  gap: 1rem; /* same as Bootstrap’s g-3 horizontal gutter */
+}
+
+.chart-container img {
+  /* cap the height so both charts are identical in display */
+  max-height: 400px;  /* adjust as needed */
+  object-fit: contain;
+}
+
+
+#table1 table th,
+#table2 table th {
+  text-align: left!important;
+}
+
+
+/* Make those profile cards blend into the page */
+.card.transparent-bg {
+  background: none;
+  border: none;
+  box-shadow: none;
+}
+
+#profile1, #profile2 {
+  width: 100%;
+  height: auto;        /* Let width drive the aspect ratio */
+  object-fit: contain; /* If you prefer letter‑boxing within the container */
+}
+
